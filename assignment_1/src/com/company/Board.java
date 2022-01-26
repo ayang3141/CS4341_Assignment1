@@ -11,6 +11,15 @@ import java.util.Scanner;
 import java.lang.*;
 
 public class Board {
+
+    int numRows;
+    int numCols;
+    char[][] gameboard = new char[numRows][numCols];
+
+
+
+
+
     public static void main(String[] args) throws IOException {
         final int ROW = 3;
         final int COL = 4;

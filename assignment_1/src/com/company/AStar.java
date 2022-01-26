@@ -1,7 +1,8 @@
 package com.company;
-
+import java.util.*;
 
 public class AStar {
+
     private int x_coord;
     private int y_coord;
     public AStar() {
@@ -9,11 +10,25 @@ public class AStar {
         this.y_coord = 0;
     }
 
+    public void set_X_Coord(int new_x) {
+        this.x_coord = new_x;
+    }
 
-    public int search() {
+    public void set_Y_Coord(int new_y) {
+        this.y_coord = new_y;
+    }
 
-//        frontier = PriorityQueue()
-//        frontier.put(start, 0)
+
+    Comparator<Coordinate> CoordinateComparator = new Comparator<Coordinate>() {
+        @Override
+        public int compare(Coordinate c1, Coordinate c2) {
+            return c1.priority - c2.priority;
+        }
+    };
+
+    public int search(Board gameboard) {
+        PriorityQueue<Coordinate> OPEN = new PriorityQueue<Coordinate>();
+//        OPEN.insert(gameboard.start, 0);
 //        came_from = dict()
 //        cost_so_far = dict()
 //        came_from[start] = None
