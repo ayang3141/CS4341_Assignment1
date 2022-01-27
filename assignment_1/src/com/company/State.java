@@ -1,28 +1,26 @@
 package com.company;
 
 public class State {
-    int x;
-    int y;
+    Coordinate position;
     int faceDirection;
     int priorityValue;
     int currentCost;
     State came_from;
 
-    public(int x, int y, int faceDirection, int priority, State parent) {
-        this.x = x;
-        this.y = y;
+    public State(Coordinate coordinates, int faceDirection, int priority, State parent) {
+        this.position = coordinates;
         this.faceDirection = faceDirection;
-        this.priorityValue = priority;
+        this.priorityValue = Integer.MAX_VALUE;
         this.currentCost = -1;
-        this.came_from = came_from;
+        this.came_from = parent;
     }
 
     public int getX() {
-        return x;
+        return this.position.getX();
     }
 
     public int getY() {
-        return y;
+        return this.position.getY();
     }
 
     public int getFaceDirection() {
