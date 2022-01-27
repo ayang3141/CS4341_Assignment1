@@ -6,6 +6,11 @@ import java.util.PriorityQueue;
 public class Search {
     Board gameboard;
     Agent agent;
+    PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>() {
+        @Override
+        public int compare(State s1, State s2) {return s1.getPriorityValue() - s2.getPriorityValue();}
+    });
+
 
     public Search(Board gameBoard, Agent agent) {
         this.gameboard = gameBoard;
@@ -13,14 +18,6 @@ public class Search {
     }
 
 
-
-
-
-    PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>()
-    {
-        @Override
-        public int compare(State s1, State s2) {return s1.getPriorityValue() - s2.getPriorityValue();}
-    });
 
     public State A_Star_Search() {
         // Priority queue for Coordinates to visit

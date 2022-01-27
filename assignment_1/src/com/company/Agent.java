@@ -6,7 +6,20 @@ import java.util.PriorityQueue;
 public class Agent {
     // This class is purely responsible for the agent and what it should do
     // The agent should only be able to do the following:
-    // forward, left, right, bash, checkPosition, nextMoves
+    //    forward
+    //    left
+    //    right
+    //    bash
+    //    checkPosition
+    //    nextMoves
+    //    increase number of nodes expanded
+    //    increment number of actions
+    //    increase or decrase score
+    //    list all available moves at position
+
+
+
+
 
     State agent_state;
     int numNodesExpanded;
@@ -52,12 +65,25 @@ public class Agent {
         return true;
     }
 
+    public void increaseNumNodesExpanded(int amount) {
+        this.numNodesExpanded += amount;
+    }
 
+    public void incrementNumActions() {
+        this.numActions += 1;
+    }
 
+    public void increaseScore(int amount) {
+        this.score += amount;
+    }
 
-    public static void main(String[] args) {
+    public void decreaseScore(int amount) {
+        this.score -= amount;
+    }
 
-
+    public String[] getAvailableMoves(Coordinate position) {
+        // return all the available moves from a certain position
+        return null;
     }
 
 }

@@ -11,16 +11,35 @@ import java.util.Scanner;
 import java.lang.*;
 
 public class Board {
+    // This class is responsible for holding information regarding the board that the
+    // agent will traverse
 
     int numRows;
     int numCols;
     char[][] gameboard = new char[numRows][numCols];
+    String fileName;
+
+    public Board(String fileName) {
+        this.fileName = fileName;
+    }
+
+
+    public Coordinate getStartPoint() {
+        // return the coordinate of the "S" tile
+        return null;
+    }
+
+
+    public boolean OutOfBounds(Coordinate coordinate) {
+//        if(coordinate is out of bounds) {
+//            return true;
+//        }
+        return false;
+    }
 
 
 
-
-
-    public static void main(String[] args) throws IOException {
+    public void generateBoard(String[] args) throws IOException {
         final int ROW = 3;
         final int COL = 4;
         char[][] level = new char[ROW][COL];
@@ -54,6 +73,9 @@ public class Board {
             err.printStackTrace();
         }
     }
+
+
+
 
 
 }
