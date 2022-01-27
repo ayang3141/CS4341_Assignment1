@@ -3,12 +3,11 @@ package com.company;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class AStar {
-
+public class Search {
     Board gameboard;
     Agent agent;
 
-    public AStar(Board gameBoard, Agent agent) {
+    public Search(Board gameBoard, Agent agent) {
         this.gameboard = gameBoard;
         this.agent = agent;
     }
