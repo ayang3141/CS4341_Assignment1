@@ -1,10 +1,4 @@
 package com.company;
-/**
- * CS4341 Assignment 1
- * Professor Joseph Beck
- * Lena Dias, Roopsa Ghosh, Adam Yang
- * 1/25/2022
- */
 
 import java.io.*;
 import java.util.Scanner;
@@ -19,17 +13,19 @@ public class Board {
     char[][] gameboard = new char[numRows][numCols];
     String fileName;
 
+    // Constructor for the Board class
     public Board(String fileName) {
         this.fileName = fileName;
     }
 
-
+    // This method finds the starting point of the board,
+    // Starting point is coordinate with 'S'
     public Coordinate getStartPoint() {
         // return the coordinate of the "S" tile
         return null;
     }
 
-
+    // This method determines if the given coordinate is out of bounds
     public boolean OutOfBounds(Coordinate coordinate) {
 //        if(coordinate is out of bounds) {
 //            return true;
@@ -38,8 +34,8 @@ public class Board {
     }
 
 
-
-    public void generateBoard(String[] args) throws IOException {
+    // This method generates the game board from the file name attribute
+    public void generateBoard() throws IOException {
         final int ROW = 3;
         final int COL = 4;
         char[][] level = new char[ROW][COL];

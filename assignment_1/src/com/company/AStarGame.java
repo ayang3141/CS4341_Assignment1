@@ -1,12 +1,20 @@
 package com.company;
 
+/**
+ * CS4341 Assignment 1
+ * Professor Joseph Beck
+ * Lena Dias, Roopsa Ghosh, Adam Yang
+ * 1/25/2022
+ */
+
 public class AStarGame {
     // This class will be responsible for running the AStar Search Program
 
+    // Main method to run the program
     public static void main(String[] args) {
         Agent agent1 = new Agent();
-        Board gameboard = new Board();
-        gameboard.generateBoard("assignment_1/assignment 1, sample board.txt");
+        Board gameboard = new Board("assignment_1/assignment 1, sample board.txt");
+        gameboard.generateBoard();
         Search search1 = new Search(gameboard, agent1);
         search1.A_Star_Search();
 

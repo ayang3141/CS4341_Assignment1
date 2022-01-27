@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Search {
+    // This class holds search algorithms for the board, in particularly, the A* Search Algorithm
+
     Board gameboard;
     Agent agent;
     PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>() {
@@ -11,24 +13,27 @@ public class Search {
         public int compare(State s1, State s2) {return s1.getPriorityValue() - s2.getPriorityValue();}
     });
 
-
+    // Constructor for the Search class
     public Search(Board gameBoard, Agent agent) {
         this.gameboard = gameBoard;
         this.agent = agent;
     }
 
-
-
+    // This method searches the board using the A* Algorithm
     public State A_Star_Search() {
         // Priority queue for Coordinates to visit
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
-
-        // Adds start_point to priority queue
-        OPEN.add(start_point);
+        Coordinate startPoint = this.gameboard.getStartPoint();
+        State start_state = new State(startPoint);
 
         // set previous node of start to null, and current path cost of start to 0
-        start_point.came_from = null;
-        start_point.currentCost = 0;
+        start_state.came_from = null;
+        start_state.currentCost = 0;
+
+        // Adds start_point to priority queue
+        OPEN.add(start_state);
+
+
 
         // while there are still states to be visited ...
         while(OPEN.size() != 0) {
