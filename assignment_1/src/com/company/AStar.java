@@ -22,21 +22,21 @@ public class AStar {
         // Priority queue for Coordinates to visit
         PriorityQueue<Coordinate> OPEN = new PriorityQueue<Coordinate>(CoordinateComparator);
 
-//        OPEN.add(new Coordinate(200, 2, 'c', 5));
-//        OPEN.add(new Coordinate(40, 4, 'b', 2));
-//        OPEN.add(new Coordinate(3, 3, 'a', 10));
+        OPEN.add(new Coordinate(200, 2, 'c', 5));
+        OPEN.add(new Coordinate(40, 4, 'b', 2));
+        OPEN.add(new Coordinate(3, 3, 'a', 10));
 
 //        // Remove items from the Priority Queue (DEQUEUE)
-//        while (!OPEN.isEmpty()) {
-//            Coordinate e = OPEN.remove();
-//            System.out.print(e.getX());
-//            System.out.print(' ');
-//            System.out.print(e.getY());
-//            System.out.print(' ');
-//            System.out.print(e.getComplexity());
-//            System.out.print(' ');
-//            System.out.println(e.getPriority());
-//        }
+        while (!OPEN.isEmpty()) {
+            Coordinate e = OPEN.remove();
+            System.out.print(e.getX());
+            System.out.print(' ');
+            System.out.print(e.getY());
+            System.out.print(' ');
+            System.out.print(e.getComplexity());
+            System.out.print(' ');
+            System.out.println(e.getPriority());
+        }
 
 
 
