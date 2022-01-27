@@ -11,9 +11,11 @@ public class Agent {
     State agent_state;
     int numNodesExpanded;
     int numActions;
+    int score;
     public Agent() {
         numNodesExpanded = 0;
         numActions = 0;
+        score = 0;
     }
 
     public void moveForward() {
