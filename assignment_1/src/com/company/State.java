@@ -41,6 +41,10 @@ public class State {
         return currentCost;
     }
 
+    public Coordinate getCoordinate() { return position; }
+
+    public void setFaceDirection(int faceDirection) { this.faceDirection = faceDirection; }
+
 
 
 
