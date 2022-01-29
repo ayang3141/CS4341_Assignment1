@@ -17,25 +17,48 @@ public class Agent {
     //    increase or decrase score
     //    list all available moves at position
 
-
+    Board board;
     State agent_state;
     int numNodesExpanded;
     int numActions;
     int score;
 
     // Constructor for the Agent class
-    public Agent() {
+    public Agent(Board board) {
         numNodesExpanded = 0;
         numActions = 0;
         score = 0;
+        this.board = board;
+        agent_state = new State(board.getStartPoint(), State.NORTH);
     }
 
     // This method moves the agent forward
     public void moveForward() {
-//        if(checkSpace(ForwardSpace)) {
-//            increment position forward
-//            decrease score by terrain complexity of ForwardSpace
-//        }
+
+        Coordinate forwardSpace;
+        switch(agent_state.faceDirection)
+        {
+            case State.NORTH:
+                forwardSpace = new Coordinate();
+                break;
+            case State.SOUTH:
+                forwardSpace = new Coordinate();
+                break;
+            case State.WEST:
+                forwardSpace = new Coordinate();
+                break;
+            case State.EAST:
+                forwardSpace = new Coordinate();
+                break;
+            default:
+                forwardSpace = new Coordinate();
+                break;
+        }
+        if(checkSpace(forwardSpace))
+        {
+            //increment position forward
+            //decrease score by terrain complexity of ForwardSpace
+        }
     }
 
     // This method turns the agent left
@@ -63,7 +86,7 @@ public class Agent {
 
     // This method checks if the coordinate is a valid position
     public boolean checkSpace(Coordinate coordinate) {
-        if(gameBoard.OutOfBounds(coordinate)) {
+        if(board.OutOfBounds(coordinate)) {
             return false;
         }
         return true;

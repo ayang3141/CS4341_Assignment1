@@ -1,21 +1,23 @@
 package com.company;
 
 public class State {
+    public static final int NORTH = 1;
+    public static final int SOUTH = 2;
+    public static final int WEST = 3;
+    public static final int EAST = 4;
     // This class is used to hold important information about the state of the agent
 
     Coordinate position;
     int faceDirection;
     int priorityValue;
     int currentCost;
-    State came_from;
 
     // Constructor for the State class
-    public State(Coordinate coordinates, int faceDirection, int priority, State parent) {
+    public State(Coordinate coordinates, int faceDirection) {
         this.position = coordinates;
         this.faceDirection = faceDirection;
         this.priorityValue = Integer.MAX_VALUE;
         this.currentCost = -1;
-        this.came_from = parent;
     }
 
 
@@ -39,9 +41,6 @@ public class State {
         return currentCost;
     }
 
-    public State getCame_from() {
-        return came_from;
-    }
 
 
 
