@@ -17,53 +17,124 @@ public class Agent {
     //    increase or decrase score
     //    list all available moves at position
 
-
+    Board board;
     State agent_state;
     int numNodesExpanded;
     int numActions;
     int score;
 
     // Constructor for the Agent class
-    public Agent() {
+    public Agent(Board board) {
         numNodesExpanded = 0;
         numActions = 0;
         score = 0;
+        this.board = board;
+        agent_state = new State(board.getStartPoint(), State.NORTH);
+    }
+
+
+    //Get the coordinates of the space in front of the Agent
+    public Coordinate getForwardSpace(int numSpaces)
+    {
+        Coordinate forwardSpace = new Coordinate(0,0);
+        switch(agent_state.getFaceDirection())
+        {
+            case State.NORTH:
+                forwardSpace = new Coordinate(agent_state.getX(), agent_state.getY() - numSpaces);
+                break;
+            case State.SOUTH:
+                forwardSpace = new Coordinate(agent_state.getX(), agent_state.getY() + numSpaces);
+                break;
+            case State.WEST:
+                forwardSpace = new Coordinate(agent_state.getX() - numSpaces, agent_state.getY());
+                break;
+            case State.EAST:
+                forwardSpace = new Coordinate(agent_state.getX() + numSpaces, agent_state.getY());
+                break;
+        }
+
+        return forwardSpace;
     }
 
     // This method moves the agent forward
     public void moveForward() {
-//        if(checkSpace(ForwardSpace)) {
-//            increment position forward
-//            decrease score by terrain complexity of ForwardSpace
-//        }
+
+        //calculate forward space
+        Coordinate forwardSpace = getForwardSpace(1);
+
+        //check if can more forwards
+        if(checkSpace(forwardSpace))
+        {
+            //increment position forward
+            agent_state = new State(forwardSpace, agent_state.getFaceDirection());
+        }
     }
 
     // This method turns the agent left
     public void turnLeft() {
-        // turn the robot to face left
-        // decrease score by 1/2 of terrain complexity (round up)
+
+        int new_faceDirection = agent_state.getFaceDirection();
+        // determine new direction
+        switch(agent_state.getFaceDirection())
+        {
+            case State.NORTH:
+                new_faceDirection = State.WEST;
+                break;
+            case State.SOUTH:
+                new_faceDirection = State.EAST;
+                break;
+            case State.WEST:
+                new_faceDirection = State.SOUTH;
+                break;
+            case State.EAST:
+                new_faceDirection = State.NORTH;
+                break;
+        }
+
+        //create new state
+        agent_state = new State(agent_state.getCoordinate(), new_faceDirection);
     }
 
     // This method turns the agent right
     public void turnRight() {
-        // turn the robot to face right
-        // decrease score by 1/2 of terrain complexity (round up)
+        int new_faceDirection = agent_state.getFaceDirection();
+        // determine new direction
+        switch(agent_state.getFaceDirection())
+        {
+            case State.NORTH:
+                new_faceDirection = State.EAST;
+                break;
+            case State.SOUTH:
+                new_faceDirection = State.WEST;
+                break;
+            case State.WEST:
+                new_faceDirection = State.NORTH;
+                break;
+            case State.EAST:
+                new_faceDirection = State.SOUTH;
+                break;
+        }
+
+        //create new state
+        agent_state = new State(agent_state.getCoordinate(), new_faceDirection);
     }
 
     // This method makes the agent bash
     public void bash() {
-        if(checkSpace(ForwardSpace)
-                && checkSpace(ForwardSpace + 1)) {
+        //check to see if we can actually move into that space
+        if(checkSpace(getForwardSpace(1))
+                && checkSpace(getForwardSpace(2)))
+        {
             // increment position forward
-            // decrease score by 3
+            moveForward();
             // increment position forward
-            // decrease score by terrain complexity of (ForwardSpace + 1)
+            moveForward();
         }
     }
 
     // This method checks if the coordinate is a valid position
     public boolean checkSpace(Coordinate coordinate) {
-        if(gameBoard.OutOfBounds(coordinate)) {
+        if(board.OutOfBounds(coordinate)) {
             return false;
         }
         return true;
@@ -91,9 +162,14 @@ public class Agent {
 
     // This method retrieves a list of all valid agent moves from the given coordinate position
     // (Assume the agent cannot backtrack)
+    //TODO: i think you are looking for a linkedlist for this
     public String[] getAvailableMoves(Coordinate position) {
         // return all the available moves from a certain position
-        return null;
+        String availableMoves[];
+
+        //availableMoves.
+
+        return availableMoves;
     }
 
 }
