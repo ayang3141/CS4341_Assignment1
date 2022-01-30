@@ -144,4 +144,30 @@ public class Agent {
         return newStateList;
     }
 
+    public int moveCost(State first, State second) {
+        int cost = 0;
+
+        switch(second.previousMove) {
+            case "forward":
+                cost = board.getComplexity(second.getX(), second.getY());
+                if(cost == 'G') {
+                    cost = 1;
+                }
+                break;
+            case "right":
+                cost = (int) Math.ceil(0.5 * board.getComplexity(first.getX(), first.getY()));
+                break;
+            case "left":
+                cost = (int) Math.ceil(0.5 * board.getComplexity(first.getX(), first.getY()));
+                break;
+            case "bash":
+                // accounts for the bash cost and the proceeding forward cost
+                cost = 3 + board.getComplexity(second.getX(), second.getY());
+                break;
+        }
+
+        return cost;
+    }
+
+
 }

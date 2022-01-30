@@ -30,11 +30,13 @@ public class Search {
         int score = 0;
         List<State> stateList = new ArrayList<>();
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
+        Heuristics myHeuristic = new Heuristics(this.heuristic);
 
 
         // ---------- PREPPING THE START STATE ----------------
         // Retrieve and prep the start state of the agent
         Coordinate startPoint = this.gameBoard.getStartPoint();
+        Coordinate endPoint = this.gameBoard.getEndPoint();
         State start_state = new State(startPoint, State.NORTH);
         start_state.previousState = null; // Set previous node of start to null
         start_state.currentCost = 0; // current path cost of start to 0
@@ -71,22 +73,23 @@ public class Search {
             // for each next_state
             for(int i = 0; i < NextState.size(); i++) {
                 // Calculate the cost of the state
-                int new_cost = current.currentCost + moveCost(current, NextState[i]);
+                int new_cost = current.currentCost + agent.moveCost(current, NextState.get(i));
                 // update the cost of the new state
-                NextState[i].currentCost = new_cost;
+                NextState.get(i).currentCost = new_cost;
                 // determine the priority of the new state
-                NextState[i].priorityValue = new_cost + heuristic(goal, NextState[i]);
+                NextState.get(i).priorityValue = new_cost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
                 // set current to be the parent of the new state
-                NextState[i].came_from = current;
+                NextState.get(i).previousState = current;
                 // Add new state to the priority queue
-                OPEN.add(NextState[i]);
+                OPEN.add(NextState.get(i));
             }
 
         } // end of the while loop
 
 
         // Calculate the score of the path
-        for(int i = 1; i < stateList.size()-1; i++) {
+        int i = 1;
+        while(i < stateList.size() - 1) {
             State currentState = stateList.get(i);
             String currentMove = currentState.previousMove;
             if(currentMove.equals("Forward")) {
@@ -110,8 +113,9 @@ public class Search {
         System.out.println("Number of actions: " + numActions);
         System.out.println("Number of nodes expanded: " + numNodesExpanded);
 
-        for(int i = 1; i < stateList.size()-1; i++) {
-            System.out.println(stateList.get(i).previousMove);
+        for(int j = 1; j < stateList.size()-1; j++) {
+            System.out.println(stateList.get(j).previousMove);
         }
-    }
+
+    } // End of A_Star_Search()
 }
