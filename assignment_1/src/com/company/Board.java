@@ -30,6 +30,7 @@ public class Board {
                 }
             }
         }
+
         return null;
     }
 
@@ -56,49 +57,77 @@ public class Board {
     public boolean OutOfBounds(Coordinate coordinate) {
         if((coordinate.getX() >= 0) && (coordinate.getX() <= numRows-1)
                 && (coordinate.getY() >= 0) && (coordinate.getY() <= numCols-1)) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     // This method generates the game board from the given file name
     public void generateBoard() throws FileNotFoundException {
-        final int ROW = 3;
-        final int COL = 4;
-        char[][] level = new char[ROW][COL];
-
         //File I/O
         try {
-            //Establish scanners
+
             File levelFile = new File(this.fileName);
+
+            //count total chars
+            BufferedReader colScanner = new BufferedReader(new FileReader(levelFile));
+            String line = null;
+            while((line = colScanner.readLine()) != null)
+            {
+                System.out.println(line);
+                //tokenize it here
+                String[] tokens = line.split("\\t");
+                numCols = tokens.length;
+                numRows++;
+            }
+
+//            System.out.println(numCols);
+//            System.out.println(numRows);
+
             Scanner sc = new Scanner(levelFile);
             sc.useDelimiter("(\\r\\n)|\\t");
+            char[][] level = new char[numRows][numCols];
 
-            //Scan file TODO refactor to auto-configure row/col?
-            for (int i = 0; i < ROW; i++)
+
+
+            //now, actually put them in a list. would be better to do this all in one loop, but this works.
+            for (int i = 0; i < numRows; i++)
             {
-                for (int j = 0; j < COL; j++)
+                for (int j = 0; j < numCols; j++)
                 {
                     if(sc.hasNext())
                     {
                         char ch = sc.next().charAt(0); // Convert to char
                         level[i][j] = ch;
-                        System.out.println(level[i][j]);
+                        //System.out.println(ch);
+                        //System.out.println(level[i][j]);
                     }
                 }
             }
+            this.gameboard = level;
             sc.close();
-
         }
         catch (FileNotFoundException err)
         {
             System.out.println("File not found.");
             err.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+
+
+
+
+
+
+
+
+
+
     public static void main(String[] args) throws FileNotFoundException {
-        Board myBoard = new Board("assignment_1/assignment 1, sample board.txt");
+        Board myBoard = new Board("assignment_1/assignment 1, sample board - 0.txt");
         myBoard.generateBoard();
     }
 

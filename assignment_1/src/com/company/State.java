@@ -19,20 +19,31 @@ public class State {
 
     // TODO: Integrating previous moves
     // Constructor for the State class
+
     public State(Coordinate coordinates, int faceDirection) {
         this.position = coordinates;
         this.faceDirection = faceDirection;
-        this.priorityValue = Integer.MAX_VALUE;
-        this.currentCost = -1;
+        this.priorityValue = 0;
+        this.currentCost = 0;
     }
 
-    // Alternative Constructor for the State class
-    public State(Coordinate coordinates, int faceDirection, String previousMove) {
+    public State(Coordinate coordinates, int faceDirection, int cost) {
         this.position = coordinates;
         this.faceDirection = faceDirection;
-        this.priorityValue = Integer.MAX_VALUE;
-        this.currentCost = -1;
+        this.priorityValue = 0;
+        this.currentCost = cost;
+    }
+
+
+
+    // Alternative Constructor for the State class
+    public State(Coordinate coordinates, int faceDirection, int cost, State parent, String previousMove) {
+        this.position = coordinates;
+        this.faceDirection = faceDirection;
+        this.priorityValue = 0;
+        this.currentCost = cost;
         this.previousMove = previousMove;
+        this.previousState = parent;
     }
 
     // returns the x coordinate

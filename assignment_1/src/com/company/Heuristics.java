@@ -3,6 +3,7 @@ package com.company;
 import java.lang.*;
 
 
+
 public class Heuristics {
 
     // This class is responsible for the heuristic functions

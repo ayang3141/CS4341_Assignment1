@@ -1,5 +1,6 @@
 package com.company;
 
+
 public class Coordinate {
     // This class is used to represent the coordinates on the board
 

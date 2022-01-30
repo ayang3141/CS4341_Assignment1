@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 // This class is purely responsible for the agent and what it should do
@@ -32,16 +33,59 @@ public class Agent {
         {
             case State.NORTH:
                 // if facing north, move two spaces north
-                return new Coordinate(oldState.getX(), oldState.getY() - numSpaces);
+                return new Coordinate(oldState.getX() - numSpaces, oldState.getY());
             case State.SOUTH:
                 // if facing south, move two spaces south
-                return new Coordinate(oldState.getX(), oldState.getY() + numSpaces);
+                return new Coordinate(oldState.getX() + numSpaces, oldState.getY() + numSpaces);
             case State.WEST:
                 // if facing west, move two spaces west
-                return new Coordinate(oldState.getX() - numSpaces, oldState.getY());
+                return new Coordinate(oldState.getX(), oldState.getY() - numSpaces);
             case State.EAST:
                 // if facing east, move two spaces east
-                return new Coordinate(oldState.getX() + numSpaces, oldState.getY());
+                return new Coordinate(oldState.getX(), oldState.getY() + numSpaces);
+        }
+
+        return null;
+    }
+
+
+    public Coordinate getLeftSpace(State oldState) {
+
+        switch(oldState.getFaceDirection())
+        {
+            case State.NORTH:
+                // if facing north, turn west
+                return new Coordinate(oldState.getX(), oldState.getY() - 1);
+            case State.SOUTH:
+                // if facing south, turn east
+                return new Coordinate(oldState.getX(), oldState.getY() + 1);
+            case State.WEST:
+                // if facing west, turn south
+                return new Coordinate(oldState.getX() + 1, oldState.getY());
+            case State.EAST:
+                // if facing east, turn north
+                return new Coordinate(oldState.getX() - 1, oldState.getY());
+        }
+
+        return null;
+    }
+
+    public Coordinate getRightSpace(State oldState) {
+
+        switch(oldState.getFaceDirection())
+        {
+            case State.NORTH:
+                // if facing north, turn east
+                return new Coordinate(oldState.getX(), oldState.getY() + 1);
+            case State.SOUTH:
+                // if facing south, turn west
+                return new Coordinate(oldState.getX(), oldState.getY() - 1);
+            case State.WEST:
+                // if facing west, turn north
+                return new Coordinate(oldState.getX() - 1, oldState.getY());
+            case State.EAST:
+                // if facing east, turn south
+                return new Coordinate(oldState.getX() + 1, oldState.getY());
         }
 
         return null;
@@ -57,7 +101,24 @@ public class Agent {
         if(checkSpace(forwardSpace))
         {
             //increment position forward
-            return new State(forwardSpace, oldState.getFaceDirection());
+            State newState = new State(forwardSpace, oldState.getFaceDirection(), oldState.currentCost, oldState,"forward");
+            int cost = moveCost(oldState, newState);
+            newState.currentCost += cost;
+            return newState;
+        }
+        return null;
+    }
+
+    public State moveLeft(State oldState) {
+        if(checkSpace(getLeftSpace(oldState))) {
+            return moveForward(turnLeft(oldState));
+        }
+        return null;
+    }
+
+    public State moveRight(State oldState) {
+        if(checkSpace(getRightSpace(oldState))) {
+            return moveForward(turnRight(oldState));
         }
         return null;
     }
@@ -67,20 +128,35 @@ public class Agent {
 
         int oldStateFaceDirection = oldState.getFaceDirection();
         // determine new direction
+        State newState;
+        int cost;
         switch(oldStateFaceDirection)
         {
+
             case State.NORTH:
                 // if north, face west
-                return new State(oldState.getCoordinate(), State.WEST);
+                newState = new State(oldState.getCoordinate(), State.WEST, oldState.currentCost, oldState, "left");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
             case State.SOUTH:
                 // if south, face east
-                return new State(oldState.getCoordinate(), State.EAST);
+                newState = new State(oldState.getCoordinate(), State.EAST, oldState.currentCost, oldState, "left");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
             case State.WEST:
                 // if west, face south
-                return new State(oldState.getCoordinate(), State.SOUTH);
+                newState = new State(oldState.getCoordinate(), State.SOUTH, oldState.currentCost, oldState,"left");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
             case State.EAST:
                 // if east, face north
-                return new State(oldState.getCoordinate(), State.NORTH);
+                newState = new State(oldState.getCoordinate(), State.NORTH, oldState.currentCost, oldState,"left");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
         }
         return null;
     }
@@ -88,21 +164,39 @@ public class Agent {
     // This gets the right state
     public State turnRight(State oldState) {
         int oldStateFaceDirection = oldState.getFaceDirection();
+        State newState;
+        int cost;
         // determine new direction
         switch(oldStateFaceDirection)
         {
             case State.NORTH:
                 // if north, face east
-                return new State(oldState.getCoordinate(), State.EAST);
+                newState = new State(oldState.getCoordinate(), State.EAST, oldState.currentCost, oldState,"right");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
             case State.SOUTH:
                 // if south, face west
-                return new State(oldState.getCoordinate(), State.WEST);
+                newState = new State(oldState.getCoordinate(), State.WEST, oldState.currentCost, oldState,"right");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
+
+
             case State.WEST:
                 // if west, face north
-                return new State(oldState.getCoordinate(), State.NORTH);
+                newState = new State(oldState.getCoordinate(), State.NORTH, oldState.currentCost, oldState,"right");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
+
             case State.EAST:
                 // if east, face south
-                return new State(oldState.getCoordinate(), State.SOUTH);
+                newState = new State(oldState.getCoordinate(), State.SOUTH, oldState.currentCost, oldState,"right");
+                cost = moveCost(oldState, newState);
+                newState.currentCost += cost;
+                return newState;
+
         }
 
         return null;
@@ -118,7 +212,10 @@ public class Agent {
         if(checkSpace(bashSpace))
         {
             // increment twice
-            return new State(bashSpace, oldState.getFaceDirection());
+            State newState =  new State(bashSpace, oldState.getFaceDirection(), oldState.currentCost, oldState,"bash");
+            int cost = moveCost(oldState, newState);
+            newState.currentCost += cost;
+            return newState;
         }
         return null;
     }
@@ -143,13 +240,12 @@ public class Agent {
             newStateList.add(moveForward(oldState));
         }
 
-        // if previous move was left, only turn is left
-        if(oldState.previousMove.equals("Left")) {
-            newStateList.add(turnLeft(oldState));
+        if(checkSpace(getLeftSpace(oldState))) {
+            newStateList.add(moveLeft(oldState));
         }
-        // if previous move was right, only turn is right
-        else if (oldState.previousMove.equals("Right")) {
-            newStateList.add(turnRight(oldState));
+
+        if(checkSpace(getRightSpace(oldState))) {
+            newStateList.add(moveRight(oldState));
         }
 
         // check if bash is possible, if so, add bash state
@@ -173,18 +269,37 @@ public class Agent {
                 if(cost == 'G') { // if second state is goal, cost is only 1
                     cost = 1;
                 }
+                else {
+                    cost = Character.getNumericValue(cost);
+                }
                 break;
             case "right":
                 // if right, 1/2 of complexity of current state (rounded up)
-                cost = (int) Math.ceil(0.5 * board.getComplexity(first.getX(), first.getY()));
+                if(board.getComplexity(first.getX(), first.getY()) == 'S') {
+                    cost = 1;
+                }
+                else {
+                    cost = (int)Math.ceil(0.5 * Character.getNumericValue(board.getComplexity(first.getX(), first.getY())));
+                }
                 break;
             case "left":
                 // if left, 1/2 of complexity of current state (rounded up)
-                cost = (int) Math.ceil(0.5 * board.getComplexity(first.getX(), first.getY()));
+                if(board.getComplexity(first.getX(), first.getY()) == 'S') {
+                    cost = 1;
+                }
+                else {
+                    cost = (int) Math.ceil(0.5 * Character.getNumericValue(board.getComplexity(first.getX(), first.getY())));
+                }
                 break;
             case "bash":
                 // accounts for the bash cost and the proceeding forward cost
-                cost = 3 + board.getComplexity(second.getX(), second.getY());
+                if(board.getComplexity(second.getX(), second.getY()) == 'G') {
+                    cost = 4;
+                }
+                else {
+                    cost = 3 + Character.getNumericValue(board.getComplexity(second.getX(), second.getY()));
+                }
+
                 break;
         }
 
