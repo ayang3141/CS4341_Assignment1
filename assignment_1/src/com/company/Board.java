@@ -22,14 +22,23 @@ public class Board {
     // Starting point is coordinate with 'S'
     public Coordinate getStartPoint() {
         // return the coordinate of the "S" tile
+
+        for(int i=0;i< this.numRows;i++)
+        {
+            for(int j=0;j<this.numCols;j++)
+            {
+                if(gameboard[i][j] == 'S')
+                {
+                    return new Coordinate(i,j);
+                }
+            }
+        }
         return null;
     }
 
     // This method determines if the given coordinate is out of bounds
     public boolean OutOfBounds(Coordinate coordinate) {
-//        if(coordinate is out of bounds) {
-//            return true;
-//        }
+
         return false;
     }
 
