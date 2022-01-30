@@ -4,9 +4,10 @@ import java.io.*;
 import java.util.*;
 import java.lang.*;
 
+
+// This class is responsible for holding information regarding the board that the
+// agent will traverse
 public class Board {
-    // This class is responsible for holding information regarding the board that the
-    // agent will traverse
 
     int numRows;
     int numCols;
@@ -32,6 +33,8 @@ public class Board {
         return null;
     }
 
+    // This method finds the end point of the board,
+    // end point is coordinate with 'G'
     public Coordinate getEndPoint() {
         // return the coordinate of the "S" tile
         for(int i = 0; i < numRows; i++) {
@@ -44,6 +47,7 @@ public class Board {
         return null;
     }
 
+    // Returns the terrain complexity of a certain coordinate
     public char getComplexity(int x_Coord, int y_Coord) {
         return gameboard[x_Coord][y_Coord];
     }
@@ -57,8 +61,7 @@ public class Board {
         return false;
     }
 
-
-    // This method generates the game board from the file name attribute
+    // This method generates the game board from the given file name
     public void generateBoard() throws FileNotFoundException {
         final int ROW = 3;
         final int COL = 4;

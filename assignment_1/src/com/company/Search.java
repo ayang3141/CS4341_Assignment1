@@ -65,7 +65,7 @@ public class Search {
                 break;
             }
 
-            // TODO, create function to get next states, use constructor with previous move
+            // TODO, use constructor with previous move
             List<State> NextState = agent.getNextStates(current);
             // increment the number of nodes expanded
             numNodesExpanded++;
@@ -86,8 +86,9 @@ public class Search {
 
         } // end of the while loop
 
-
+        // ---------- CALCULATION OF THE OPTIMAL PATH -----------
         // Calculate the score of the path
+        // TODO: implement
         int i = 1;
         while(i < stateList.size() - 1) {
             State currentState = stateList.get(i);

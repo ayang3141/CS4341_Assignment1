@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
  * 1/25/2022
  */
 
+// This class will be responsible for running the AStar Search Program
 public class AStarGame {
-    // This class will be responsible for running the AStar Search Program
 
     // Main method to run the program
     public static void main(String[] args) throws FileNotFoundException {

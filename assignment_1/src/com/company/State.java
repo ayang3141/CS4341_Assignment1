@@ -1,11 +1,14 @@
 package com.company;
 
+
+// This class is used to hold important information about the state of the agent
+// as it traverses through the game board
 public class State {
     public static final int NORTH = 1;
     public static final int SOUTH = 2;
     public static final int WEST = 3;
     public static final int EAST = 4;
-    // This class is used to hold important information about the state of the agent
+
 
     Coordinate position;
     int faceDirection;
@@ -23,6 +26,7 @@ public class State {
         this.currentCost = -1;
     }
 
+    // Alternative Constructor for the State class
     public State(Coordinate coordinates, int faceDirection, String previousMove) {
         this.position = coordinates;
         this.faceDirection = faceDirection;
@@ -31,19 +35,22 @@ public class State {
         this.previousMove = previousMove;
     }
 
-
+    // returns the x coordinate
     public int getX() {
         return this.position.getX();
     }
 
+    // returns the y coordinate
     public int getY() {
         return this.position.getY();
     }
 
+    // returns the face direction
     public int getFaceDirection() {
         return faceDirection;
     }
 
+    // returns the priority value
     public int getPriorityValue() {
         return priorityValue;
     }
@@ -52,8 +59,10 @@ public class State {
         return currentCost;
     }
 
+    // retrieves the coordinate of the state
     public Coordinate getCoordinate() { return position; }
 
+    // sets the face direction of the state
     public void setFaceDirection(int faceDirection) { this.faceDirection = faceDirection; }
 
 

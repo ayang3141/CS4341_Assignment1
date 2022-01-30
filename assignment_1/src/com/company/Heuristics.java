@@ -2,7 +2,11 @@ package com.company;
 
 import java.lang.*;
 
+
 public class Heuristics {
+
+    // This class is responsible for the heuristic functions
+
 
     public static final int H_FIRST = 1;
     public static final int H_SECOND = 2;
@@ -13,13 +17,12 @@ public class Heuristics {
 
     int heuristicChoice;
 
+    // Constructor for the Heuristics class
     public Heuristics(int heuristicChoice) {
         this.heuristicChoice = heuristicChoice;
     }
 
-    // finding the heuristic
-    //finding the Manhattan distance\
-
+    // calculates the value of a specified heuristic function
     public int heuristicFunction(int choice, Coordinate current, Coordinate target) {
         // Choosing heuristic function
         switch(choice)
@@ -41,31 +44,38 @@ public class Heuristics {
         return 0;
     }
 
+    // Horizontal heuristic function
     public int findHorizontal(Coordinate current, Coordinate target) {
          return Math.abs(current.getX() - target.getX());
     }
 
+    // Vertical heuristic function
     public int findVertical(Coordinate current, Coordinate target) {
         return Math.abs(current.getY() - target.getY());
     }
 
+    // Minimum of horizontal and vertical heuristic function
     public int minimumHeuristic(Coordinate current, Coordinate target) {
         return Math.min(findHorizontal(current, target), findVertical(current, target));
     }
 
+    // Maximum of horizontal and vertical heuristic function
     public int maximumHeuristic(Coordinate current, Coordinate target) {
         return Math.max(findHorizontal(current, target), findVertical(current, target));
     }
 
+    // Sum of horizontal and vertical heuristic function
     public int sumHeuristic(Coordinate current, Coordinate target) {
         return findHorizontal(current, target) + findVertical(current, target);
     }
 
+    // admissible heuristic function (straight line distance)
     public int admissableHeuristic(Coordinate current, Coordinate target) {
         return (int) Math.sqrt(Math.pow(findHorizontal(current, target), 2)
                 + Math.pow(findVertical(current, target), 2));
     }
 
+    // inadmissible heuristic function (3 times admissible function)
     public int nonadmissableHeuristic(Coordinate current, Coordinate target) {
         return 3 * admissableHeuristic(current, target);
     }
