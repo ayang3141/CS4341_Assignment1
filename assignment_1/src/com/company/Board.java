@@ -44,6 +44,10 @@ public class Board {
         return null;
     }
 
+    public char getComplexity(int x_Coord, int y_Coord) {
+        return gameboard[x_Coord][y_Coord];
+    }
+
     // This method determines if the given coordinate is out of bounds
     public boolean OutOfBounds(Coordinate coordinate) {
         if((coordinate.getX() >= 0) && (coordinate.getX() <= numRows-1)

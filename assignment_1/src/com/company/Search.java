@@ -8,15 +8,17 @@ public class Search {
 
     Board gameBoard;
     Agent agent;
+    int heuristic;
     PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>() {
         @Override
         public int compare(State s1, State s2) {return s1.getPriorityValue() - s2.getPriorityValue();}
     });
 
     // Constructor for the Search class
-    public Search(Board gameBoard, Agent agent) {
+    public Search(Board gameBoard, Agent agent, int heuristic) {
         this.gameBoard = gameBoard;
         this.agent = agent;
+        this.heuristic = heuristic;
     }
 
     // This method searches the board using the A* Algorithm
@@ -30,20 +32,16 @@ public class Search {
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
 
 
-        // Initialize matrix of cost_so_far for each state
-        int numRows = this.gameBoard.getRows();
-        int numCols = this.gameBoard.getCols();
-        State[][][] best_states = new State[numRows][numCols][4];
-
         // ---------- PREPPING THE START STATE ----------------
-        // Retrieve the start state of the agent
+        // Retrieve and prep the start state of the agent
         Coordinate startPoint = this.gameBoard.getStartPoint();
-        State start_state = new State(startPoint);
-        start_state.came_from = null; // Set previous node of start to null
-        start_state.currentCost = 0; // and current path cost of start to 0
-        start_state.previous_move = null; // and the previous move to null
-        best_states[start_state.getX()][start_state.getY()][start_state.getFaceDirection()] = start_state;
+        State start_state = new State(startPoint, State.NORTH);
+        start_state.previousState = null; // Set previous node of start to null
+        start_state.currentCost = 0; // current path cost of start to 0
+        start_state.previousMove = null; // and the previous move to null
 
+
+        // ------------ A* Search -------------------------
         // Adds start_point to priority queue
         OPEN.add(start_state);
 
@@ -53,11 +51,11 @@ public class Search {
             State current = OPEN.remove();
 
             // If goal is reached, return path
-            if(this.gameBoard.gameboard[current.getX()][current.getY()] == 'G') {
+            if(this.gameBoard.getComplexity(current.getX(), current.getY()) == 'G') {
 
-                while(current.came_from != null) {
-                    stateList.add(current.came_from);
-                    State temp = current.came_from;
+                while(!Objects.isNull(current.previousState)) {
+                    stateList.add(current.previousState);
+                    State temp = current.previousState;
                     current = temp;
                 }
                 Collections.reverse(stateList);

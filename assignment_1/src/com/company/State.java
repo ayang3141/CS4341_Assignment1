@@ -11,8 +11,10 @@ public class State {
     int faceDirection;
     int priorityValue;
     int currentCost;
+    State previousState;
     String previousMove;
 
+    // TODO: Integrating previous moves
     // Constructor for the State class
     public State(Coordinate coordinates, int faceDirection) {
         this.position = coordinates;

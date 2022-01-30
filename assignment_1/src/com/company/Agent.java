@@ -26,7 +26,6 @@ public class Agent {
         this.board = board;
     }
 
-
     //Get the coordinates of the space in front of the Agent
     public Coordinate getForwardSpace(State oldState, int numSpaces) {
 

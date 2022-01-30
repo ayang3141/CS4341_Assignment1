@@ -17,7 +17,7 @@ public class AStarGame {
         Board gameboard = new Board("assignment_1/assignment 1, sample board.txt");
         gameboard.generateBoard();
         Agent agent1 = new Agent(gameboard);
-        Search search1 = new Search(gameboard, agent1);
+        Search search1 = new Search(gameboard, agent1, 5);
         search1.A_Star_Search();
 
     }
