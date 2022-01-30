@@ -11,6 +11,7 @@ public class State {
     int faceDirection;
     int priorityValue;
     int currentCost;
+    String previousMove;
 
     // Constructor for the State class
     public State(Coordinate coordinates, int faceDirection) {
@@ -18,6 +19,14 @@ public class State {
         this.faceDirection = faceDirection;
         this.priorityValue = Integer.MAX_VALUE;
         this.currentCost = -1;
+    }
+
+    public State(Coordinate coordinates, int faceDirection, String previousMove) {
+        this.position = coordinates;
+        this.faceDirection = faceDirection;
+        this.priorityValue = Integer.MAX_VALUE;
+        this.currentCost = -1;
+        this.previousMove = previousMove;
     }
 
 

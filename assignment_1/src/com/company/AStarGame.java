@@ -1,5 +1,7 @@
 package com.company;
 
+import java.io.FileNotFoundException;
+
 /**
  * CS4341 Assignment 1
  * Professor Joseph Beck
@@ -11,7 +13,7 @@ public class AStarGame {
     // This class will be responsible for running the AStar Search Program
 
     // Main method to run the program
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Board gameboard = new Board("assignment_1/assignment 1, sample board.txt");
         gameboard.generateBoard();
         Agent agent1 = new Agent(gameboard);

@@ -4,53 +4,70 @@ import java.lang.*;
 
 public class Heuristics {
 
-    Coordinate current;
-    Coordinate target;
-    int verticalDistance;
-    int horizontalDistance;
+    public static final int H_FIRST = 1;
+    public static final int H_SECOND = 2;
+    public static final int H_THIRD = 3;
+    public static final int H_FOURTH = 4;
+    public static final int H_FIFTH = 5;
+    public static final int H_SIXTH = 6;
 
-    public Heuristics(Coordinate current, Coordinate target)
-    {
-        this.current= current;
-        this.target= target;
-        findVertical();
-        findHorizontal();
+    int heuristicChoice;
+
+    public Heuristics(int heuristicChoice) {
+        this.heuristicChoice = heuristicChoice;
     }
+
     // finding the heuristic
-    //finding the Manhattan distance
+    //finding the Manhattan distance\
 
+    public int heuristicFunction(int choice, Coordinate current, Coordinate target) {
+        // Choosing heuristic function
+        switch(choice)
+        {
+            case H_FIRST:
+                return 0;
+            case H_SECOND:
+                return minimumHeuristic(current, target);
+            case H_THIRD:
+                return maximumHeuristic(current, target);
+            case H_FOURTH:
+                return sumHeuristic(current, target);
+            case H_FIFTH:
+                return admissableHeuristic(current, target);
+            case H_SIXTH:
+                return nonadmissableHeuristic(current, target);
 
-    void findHorizontal()
-    {
-         horizontalDistance=Math.abs(current.x - target.x);    }
-
-    int findVertical()
-    {
-       verticalDistance= Math.abs(current.y - target.y);
+        }
+        return 0;
     }
 
-    int minimumHeuristic()
-    {
-        return Math.min(this.verticalDistance,this.horizontalDistance);
+    public int findHorizontal(Coordinate current, Coordinate target) {
+         return Math.abs(current.getX() - target.getX());
     }
 
-    int maximumHeuristic(int vertical,int horizontal)
-    {
-        return Math.max(this.verticalDistance,this.horizontalDistance);
+    public int findVertical(Coordinate current, Coordinate target) {
+        return Math.abs(current.getY() - target.getY());
     }
 
-    int sumHeuristic()
-    {
-        return this.verticalDistance+this.horizontalDistance;
+    public int minimumHeuristic(Coordinate current, Coordinate target) {
+        return Math.min(findHorizontal(current, target), findVertical(current, target));
     }
 
-    int admissableHeuristic()
-    {
-        return 0; // what should we do here
+    public int maximumHeuristic(Coordinate current, Coordinate target) {
+        return Math.max(findHorizontal(current, target), findVertical(current, target));
     }
-    int nonadmissableHeuristic()
-    {
-        return admissableHeuristic()*3;
+
+    public int sumHeuristic(Coordinate current, Coordinate target) {
+        return findHorizontal(current, target) + findVertical(current, target);
+    }
+
+    public int admissableHeuristic(Coordinate current, Coordinate target) {
+        return (int) Math.sqrt(Math.pow(findHorizontal(current, target), 2)
+                + Math.pow(findVertical(current, target), 2));
+    }
+
+    public int nonadmissableHeuristic(Coordinate current, Coordinate target) {
+        return 3 * admissableHeuristic(current, target);
     }
 
 }

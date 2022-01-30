@@ -1,6 +1,8 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Agent {
@@ -18,118 +20,97 @@ public class Agent {
     //    list all available moves at position
 
     Board board;
-    State agent_state;
-    int numNodesExpanded;
-    int numActions;
-    int score;
 
     // Constructor for the Agent class
     public Agent(Board board) {
-        numNodesExpanded = 0;
-        numActions = 0;
-        score = 0;
         this.board = board;
-        agent_state = new State(board.getStartPoint(), State.NORTH);
     }
 
 
     //Get the coordinates of the space in front of the Agent
-    public Coordinate getForwardSpace(int numSpaces)
-    {
-        Coordinate forwardSpace = new Coordinate(0,0);
-        switch(agent_state.getFaceDirection())
+    public Coordinate getForwardSpace(State oldState, int numSpaces) {
+
+        switch(oldState.getFaceDirection())
         {
             case State.NORTH:
-                forwardSpace = new Coordinate(agent_state.getX(), agent_state.getY() - numSpaces);
-                break;
+                return new Coordinate(oldState.getX(), oldState.getY() - numSpaces);
             case State.SOUTH:
-                forwardSpace = new Coordinate(agent_state.getX(), agent_state.getY() + numSpaces);
-                break;
+                return new Coordinate(oldState.getX(), oldState.getY() + numSpaces);
             case State.WEST:
-                forwardSpace = new Coordinate(agent_state.getX() - numSpaces, agent_state.getY());
-                break;
+                return new Coordinate(oldState.getX() - numSpaces, oldState.getY());
             case State.EAST:
-                forwardSpace = new Coordinate(agent_state.getX() + numSpaces, agent_state.getY());
-                break;
+                return new Coordinate(oldState.getX() + numSpaces, oldState.getY());
         }
 
-        return forwardSpace;
+        return null;
     }
 
     // This method moves the agent forward
-    public void moveForward() {
+    public State moveForward(State oldState) {
 
         //calculate forward space
-        Coordinate forwardSpace = getForwardSpace(1);
+        Coordinate forwardSpace = getForwardSpace(oldState, 1);
 
         //check if can more forwards
         if(checkSpace(forwardSpace))
         {
             //increment position forward
-            agent_state = new State(forwardSpace, agent_state.getFaceDirection());
+            return new State(forwardSpace, oldState.getFaceDirection());
         }
+        return null;
     }
 
     // This method turns the agent left
-    public void turnLeft() {
+    public State turnLeft(State oldState) {
 
-        int new_faceDirection = agent_state.getFaceDirection();
+        int oldStateFaceDirection = oldState.getFaceDirection();
         // determine new direction
-        switch(agent_state.getFaceDirection())
+        switch(oldStateFaceDirection)
         {
             case State.NORTH:
-                new_faceDirection = State.WEST;
-                break;
+                return new State(oldState.getCoordinate(), State.WEST);
             case State.SOUTH:
-                new_faceDirection = State.EAST;
-                break;
+                return new State(oldState.getCoordinate(), State.EAST);
             case State.WEST:
-                new_faceDirection = State.SOUTH;
-                break;
+                return new State(oldState.getCoordinate(), State.SOUTH);
             case State.EAST:
-                new_faceDirection = State.NORTH;
-                break;
+                return new State(oldState.getCoordinate(), State.NORTH);
         }
-
-        //create new state
-        agent_state = new State(agent_state.getCoordinate(), new_faceDirection);
+        return null;
     }
 
     // This method turns the agent right
-    public void turnRight() {
-        int new_faceDirection = agent_state.getFaceDirection();
+    public State turnRight(State oldState) {
+        int oldStateFaceDirection = oldState.getFaceDirection();
         // determine new direction
-        switch(agent_state.getFaceDirection())
+        switch(oldStateFaceDirection)
         {
             case State.NORTH:
-                new_faceDirection = State.EAST;
-                break;
+                return new State(oldState.getCoordinate(), State.EAST);
             case State.SOUTH:
-                new_faceDirection = State.WEST;
-                break;
+                return new State(oldState.getCoordinate(), State.WEST);
             case State.WEST:
-                new_faceDirection = State.NORTH;
-                break;
+                return new State(oldState.getCoordinate(), State.NORTH);
             case State.EAST:
-                new_faceDirection = State.SOUTH;
-                break;
+                return new State(oldState.getCoordinate(), State.SOUTH);
         }
 
-        //create new state
-        agent_state = new State(agent_state.getCoordinate(), new_faceDirection);
+        return null;
     }
 
     // This method makes the agent bash
-    public void bash() {
+    public State bash(State oldState) {
+
+        //calculate forward space
+        Coordinate bashSpace = getForwardSpace(oldState, 2);
+
         //check to see if we can actually move into that space
-        if(checkSpace(getForwardSpace(1))
-                && checkSpace(getForwardSpace(2)))
+        if(checkSpace(bashSpace))
         {
-            // increment position forward
-            moveForward();
-            // increment position forward
-            moveForward();
+            // increment twice
+            return new State(bashSpace, oldState.getFaceDirection());
         }
+        return null;
     }
 
     // This method checks if the coordinate is a valid position
@@ -140,36 +121,28 @@ public class Agent {
         return true;
     }
 
-    // This method increases the numNodesExpanded counter by a certain amount
-    public void increaseNumNodesExpanded(int amount) {
-        this.numNodesExpanded += amount;
-    }
-
-    // This method increments the numActions counter
-    public void incrementNumActions() {
-        this.numActions += 1;
-    }
-
-    // This method increases the agent score by a certain amount
-    public void increaseScore(int amount) {
-        this.score += amount;
-    }
-
-    // This method decreases the agent score by a certain amount
-    public void decreaseScore(int amount) {
-        this.score -= amount;
-    }
 
     // This method retrieves a list of all valid agent moves from the given coordinate position
     // (Assume the agent cannot backtrack)
-    //TODO: i think you are looking for a linkedlist for this
-    public String[] getAvailableMoves(Coordinate position) {
+    public List<State> getNextStates(State oldState) {
         // return all the available moves from a certain position
-        String availableMoves[];
+        List<State> newStateList = new ArrayList<>();
+        if(checkSpace(getForwardSpace(oldState, 1))) {
+            newStateList.add(moveForward(oldState));
+        }
 
-        //availableMoves.
+        if(oldState.previousMove.equals("Left")) {
+            newStateList.add(turnLeft(oldState));
+        }
+        else if (oldState.previousMove.equals("Right")) {
+            newStateList.add(turnRight(oldState));
+        }
 
-        return availableMoves;
+        if(checkSpace(getForwardSpace(oldState, 2))) {
+            newStateList.add(bash(oldState));
+        }
+
+        return newStateList;
     }
 
 }

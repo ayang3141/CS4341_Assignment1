@@ -66,12 +66,12 @@ public class Search {
             }
 
             // TODO, create function to get next states, use constructor with previous move
-            State[] NextState = gameBoard.getNeighbors(current);
+            List<State> NextState = agent.getNextStates(current);
             // increment the number of nodes expanded
             numNodesExpanded++;
 
             // for each next_state
-            for(int i = 0; i < NextState.length; i++) {
+            for(int i = 0; i < NextState.size(); i++) {
                 // Calculate the cost of the state
                 int new_cost = current.currentCost + moveCost(current, NextState[i]);
                 // update the cost of the new state
@@ -85,6 +85,7 @@ public class Search {
             }
 
         } // end of the while loop
+
 
         // Calculate the score of the path
         for(int i = 1; i < stateList.size()-1; i++) {

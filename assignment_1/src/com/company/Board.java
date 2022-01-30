@@ -32,6 +32,18 @@ public class Board {
         return null;
     }
 
+    public Coordinate getEndPoint() {
+        // return the coordinate of the "S" tile
+        for(int i = 0; i < numRows; i++) {
+            for(int j = 0; j < numCols; j++) {
+                if(gameboard[i][j] == 'G') {
+                    return new Coordinate(i, j);
+                }
+            }
+        }
+        return null;
+    }
+
     // This method determines if the given coordinate is out of bounds
     public boolean OutOfBounds(Coordinate coordinate) {
         if((coordinate.getX() >= 0) && (coordinate.getX() <= numRows-1)
