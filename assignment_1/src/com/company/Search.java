@@ -1,12 +1,12 @@
 package com.company;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.lang.Math;
 
 public class Search {
     // This class holds search algorithms for the board, in particularly, the A* Search Algorithm
 
-    Board gameboard;
+    Board gameBoard;
     Agent agent;
     PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>() {
         @Override
@@ -15,59 +15,104 @@ public class Search {
 
     // Constructor for the Search class
     public Search(Board gameBoard, Agent agent) {
-        this.gameboard = gameBoard;
+        this.gameBoard = gameBoard;
         this.agent = agent;
     }
 
     // This method searches the board using the A* Algorithm
-    public State A_Star_Search() {
-        // Priority queue for Coordinates to visit
+    public void A_Star_Search() {
+        // -------------------- INITIALIZATION ------------------
+        // Initializes important counters and data structures
+        int numNodesExpanded = 0;
+        int numActions = 0;
+        int score = 0;
+        List<State> stateList = new ArrayList<>();
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
-        Coordinate startPoint = this.gameboard.getStartPoint();
-        State start_state = new State(startPoint);
 
-        // set previous node of start to null, and current path cost of start to 0
-        start_state.came_from = null;
-        start_state.currentCost = 0;
+
+        // Initialize matrix of cost_so_far for each state
+        int numRows = this.gameBoard.getRows();
+        int numCols = this.gameBoard.getCols();
+        State[][][] best_states = new State[numRows][numCols][4];
+
+        // ---------- PREPPING THE START STATE ----------------
+        // Retrieve the start state of the agent
+        Coordinate startPoint = this.gameBoard.getStartPoint();
+        State start_state = new State(startPoint);
+        start_state.came_from = null; // Set previous node of start to null
+        start_state.currentCost = 0; // and current path cost of start to 0
+        start_state.previous_move = null; // and the previous move to null
+        best_states[start_state.getX()][start_state.getY()][start_state.getFaceDirection()] = start_state;
 
         // Adds start_point to priority queue
         OPEN.add(start_state);
 
-
-
         // while there are still states to be visited ...
         while(OPEN.size() != 0) {
-            // get state with most priority
+            // Look at state with most priority
             State current = OPEN.remove();
 
-            // if goal is reached, return path
-            if(gameBoard[current.getX()][current.getY()] == 'G') {
-                return current;
+            // If goal is reached, return path
+            if(this.gameBoard.gameboard[current.getX()][current.getY()] == 'G') {
+
+                while(current.came_from != null) {
+                    stateList.add(current.came_from);
+                    State temp = current.came_from;
+                    current = temp;
+                }
+                Collections.reverse(stateList);
+
+                break;
             }
 
-            // TODO, create function to get next states
+            // TODO, create function to get next states, use constructor with previous move
             State[] NextState = gameBoard.getNeighbors(current);
+            // increment the number of nodes expanded
+            numNodesExpanded++;
 
             // for each next_state
             for(int i = 0; i < NextState.length; i++) {
-                // calculate the updated cost of the state
+                // Calculate the cost of the state
                 int new_cost = current.currentCost + moveCost(current, NextState[i]);
-
-                // if the next state does not have a current cost, or
-                // if the new cost is less than the old cost, update
-                if((NextState[i].getCurrentCost() == -1)
-                        || (new_cost < NextState[i].getCurrentCost())){
-                    NextState[i].currentCost = new_cost;
-                    NextState[i].priorityValue = new_cost + heuristic(goal, NextState[i]);
-                    OPEN.add(NextState[i]);
-                    NextState[i].came_from = current;
-                }
-
+                // update the cost of the new state
+                NextState[i].currentCost = new_cost;
+                // determine the priority of the new state
+                NextState[i].priorityValue = new_cost + heuristic(goal, NextState[i]);
+                // set current to be the parent of the new state
+                NextState[i].came_from = current;
+                // Add new state to the priority queue
+                OPEN.add(NextState[i]);
             }
 
+        } // end of the while loop
+
+        // Calculate the score of the path
+        for(int i = 1; i < stateList.size()-1; i++) {
+            State currentState = stateList.get(i);
+            String currentMove = currentState.previousMove;
+            if(currentMove.equals("Forward")) {
+                if(gameBoard.gameboard[currentState.getX()][currentState.getY()] == 'G') {
+                    score -= 1;
+                }
+                score -= (int)gameBoard.gameboard[currentState.getX()][currentState.getY()];
+            }
+            else if(currentMove.equals("Left") || currentMove.equals("Right")) {
+                score -= Math.ceil(0.5 * (int)gameBoard.gameboard[currentState.getX()][currentState.getY()]);
+            }
+            else if(currentMove.equals("Bash")) {
+                score -= 3;
+            }
+            numActions++;
+
         }
+        score += 100;
 
+        System.out.println("Score of the path: " + score);
+        System.out.println("Number of actions: " + numActions);
+        System.out.println("Number of nodes expanded: " + numNodesExpanded);
 
-        return null;
+        for(int i = 1; i < stateList.size()-1; i++) {
+            System.out.println(stateList.get(i).previousMove);
+        }
     }
 }
