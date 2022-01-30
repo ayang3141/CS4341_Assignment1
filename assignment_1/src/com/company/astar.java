@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
  */
 
 // This class will be responsible for running the AStar Search Program
-public class AStarGame {
+public class astar {
 
     // Main method to run the program
     public static void main(String[] args) throws FileNotFoundException {
