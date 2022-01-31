@@ -100,14 +100,23 @@ public class Agent {
 
     public State moveLeft(State oldState) {
         if(checkSpace(getLeftSpace(oldState))) {
-            return moveForward(turnLeft(oldState));
+
+            State firstState = turnLeft(oldState);
+
+            State secondState = moveForward(firstState);
+
+            return secondState;
         }
         return null;
     }
 
     public State moveRight(State oldState) {
         if(checkSpace(getRightSpace(oldState))) {
-            return moveForward(turnRight(oldState));
+            State firstState = turnRight(oldState);
+
+            State secondState = moveForward(firstState);
+
+            return secondState;
         }
         return null;
     }
