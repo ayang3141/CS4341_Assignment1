@@ -17,9 +17,8 @@ public class State {
     State previousState;
     String previousMove;
 
-    // TODO: Integrating previous moves
-    // Constructor for the State class
 
+    // Constructor for the State class
     public State(Coordinate coordinates, int faceDirection) {
         this.position = coordinates;
         this.faceDirection = faceDirection;
@@ -27,6 +26,7 @@ public class State {
         this.currentCost = 0;
     }
 
+    // Alternative Constructor for the State class
     public State(Coordinate coordinates, int faceDirection, int cost) {
         this.position = coordinates;
         this.faceDirection = faceDirection;

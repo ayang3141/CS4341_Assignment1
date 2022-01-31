@@ -18,12 +18,6 @@ public class astar {
         Board gameboard = new Board(args[0]);
 
         gameboard.generateBoard();
-        System.out.println("this board has " + gameboard.numRows + " rows");
-        System.out.println("this board has " + gameboard.numCols + " columns");
-
-        Coordinate start = gameboard.getStartPoint();
-        System.out.println(start.getX());
-        System.out.println(start.getY());
 
         Agent agent1 = new Agent(gameboard);
         Search search1 = new Search(gameboard, agent1, Integer.parseInt(args[1]));

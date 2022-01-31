@@ -51,13 +51,6 @@ public class Search {
         Coordinate startPoint = this.gameBoard.getStartPoint();
         Coordinate endPoint = this.gameBoard.getEndPoint();
 
-//        System.out.println("X value of start state is " + startPoint.getX());
-//        System.out.println("Y value of start state is " + startPoint.getY());
-//
-//        System.out.println("X value of end state is " + endPoint.getX());
-//        System.out.println("Y value of end state is " + endPoint.getY());
-
-
 
 
         State start_state = new State(startPoint, State.NORTH);
@@ -66,8 +59,6 @@ public class Search {
         start_state.previousMove = null; // and the previous move to null
         Best_States[start_state.getX()][start_state.getY()][State.NORTH-1] = start_state;
 
-//        System.out.println("Success after prepping start_state");
-//
 
         // ------------ A* Search -------------------------
         // Adds start_point to priority queue
@@ -78,14 +69,9 @@ public class Search {
             // Look at state with most priority
             State current = OPEN.remove();
 
-//            System.out.println("Successfully removed state from queue");
-//            System.out.println("X value of current state is " + current.getX());
-//            System.out.println("Y value of current state is " + current.getY());
-
             // If goal is reached, return path
             if(this.gameBoard.getComplexity(current.getX(), current.getY()) == 'G') {
 
-//                System.out.println("Successfully reached goal");
                 score = 100 - current.currentCost;
 
                 // determine series of actions in optimal path
@@ -107,10 +93,6 @@ public class Search {
 
             // for each next_state
             for(int i = 0; i < NextState.size(); i++) {
-//                // Calculate the cost of the state
-//                int new_cost = current.currentCost + agent.moveCost(current, NextState.get(i));
-//                // update the cost of the new state
-//                NextState.get(i).currentCost = new_cost;
 
                 // if the next state has NOT been visited yet ...
                 if(Best_States[NextState.get(i).getX()]
@@ -118,8 +100,7 @@ public class Search {
                         [NextState.get(i).getFaceDirection()-1].getCurrentCost() == -1) {
                     // determine the priority of the new state
                     NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
-//                    // set current to be the parent of the new state
-//                    NextState.get(i).previousState = Best_States[current.getX()][current.getY()][current.getFaceDirection()-1];
+
                     // Put the next state into the cost_so_far matrix
                     Best_States[NextState.get(i).getX()][NextState.get(i).getY()][NextState.get(i).getFaceDirection()-1] = NextState.get(i);
 
@@ -142,9 +123,6 @@ public class Search {
 
         } // end of the while loop
 
-
-
-//        System.out.println("Successfully ended astar");
 
 //        // ---------- CALCULATION OF THE OPTIMAL PATH -----------
         // Determine the number of actions in optimal path

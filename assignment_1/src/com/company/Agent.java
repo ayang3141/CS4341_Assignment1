@@ -6,17 +6,6 @@ import java.util.Objects;
 
 
 // This class is purely responsible for the agent and what it should do
-// The agent should only be able to do the following:
-//    forward
-//    left
-//    right
-//    bash
-//    checkPosition
-//    nextMoves
-//    increase number of nodes expanded
-//    increment number of actions
-//    increase or decrease score
-//    list all available moves at position
 public class Agent {
 
     Board board;
