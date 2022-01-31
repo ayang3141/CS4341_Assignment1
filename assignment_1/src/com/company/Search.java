@@ -28,7 +28,7 @@ public class Search {
         int numNodesExpanded = 0;
         int numActions = 0;
         int score = 0;
-        List<State> stateList = new ArrayList<>();
+        List<String> MoveList = new ArrayList<>();
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
         Heuristics myHeuristic = new Heuristics(this.heuristic);
 
@@ -51,11 +51,11 @@ public class Search {
         Coordinate startPoint = this.gameBoard.getStartPoint();
         Coordinate endPoint = this.gameBoard.getEndPoint();
 
-        System.out.println("X value of start state is " + startPoint.getX());
-        System.out.println("Y value of start state is " + startPoint.getY());
-
-        System.out.println("X value of end state is " + endPoint.getX());
-        System.out.println("Y value of end state is " + endPoint.getY());
+//        System.out.println("X value of start state is " + startPoint.getX());
+//        System.out.println("Y value of start state is " + startPoint.getY());
+//
+//        System.out.println("X value of end state is " + endPoint.getX());
+//        System.out.println("Y value of end state is " + endPoint.getY());
 
 
 
@@ -66,8 +66,8 @@ public class Search {
         start_state.previousMove = null; // and the previous move to null
         Best_States[start_state.getX()][start_state.getY()][State.NORTH-1] = start_state;
 
-        System.out.println("Success after prepping start_state");
-
+//        System.out.println("Success after prepping start_state");
+//
 
         // ------------ A* Search -------------------------
         // Adds start_point to priority queue
@@ -78,34 +78,29 @@ public class Search {
             // Look at state with most priority
             State current = OPEN.remove();
 
-            System.out.println("Successfully removed state from queue");
-            System.out.println("X value of current state is " + current.getX());
-            System.out.println("Y value of current state is " + current.getY());
+//            System.out.println("Successfully removed state from queue");
+//            System.out.println("X value of current state is " + current.getX());
+//            System.out.println("Y value of current state is " + current.getY());
 
             // If goal is reached, return path
             if(this.gameBoard.getComplexity(current.getX(), current.getY()) == 'G') {
 
-                System.out.println("Successfully reached goal");
+//                System.out.println("Successfully reached goal");
+                score = 100 - current.currentCost;
 
-//                while(!Objects.isNull(current.previousState)) {
-//                    stateList.add(current.previousState);
-//                    State temp = current.previousState;
-//                    current = temp;
-//                }
-//                Collections.reverse(stateList);
+                // determine series of actions in optimal path
+                while(!Objects.isNull(current.previousMove)) {
+                    MoveList.add(current.previousMove);
+                    State temp = current.previousState;
+                    current = temp;
+                }
+                Collections.reverse(MoveList);
 
                 break;
             }
 
-            // TODO, use constructor with previous move
+            // Get the next states of the current state
             List<State> NextState = agent.getNextStates(current);
-            // accounts for the
-
-            for(int k = 0; k < NextState.size(); k++) {
-                System.out.println("Move was " + NextState.get(k).previousMove);
-            }
-
-
 
             // increment the number of nodes expanded
             numNodesExpanded += NextState.size();
@@ -122,9 +117,12 @@ public class Search {
                         [NextState.get(i).getY()]
                         [NextState.get(i).getFaceDirection()-1].getCurrentCost() == -1) {
                     // determine the priority of the new state
-                    NextState.get(i).priorityValue += myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
-                    // set current to be the parent of the new state
-                    NextState.get(i).previousState = Best_States[current.getX()][current.getY()][current.getFaceDirection()-1];
+                    NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+//                    // set current to be the parent of the new state
+//                    NextState.get(i).previousState = Best_States[current.getX()][current.getY()][current.getFaceDirection()-1];
+                    // Put the next state into the cost_so_far matrix
+                    Best_States[NextState.get(i).getX()][NextState.get(i).getY()][NextState.get(i).getFaceDirection()-1] = NextState.get(i);
+
                     // Add new state to the priority queue
                     OPEN.add(NextState.get(i));
                 }
@@ -133,7 +131,7 @@ public class Search {
                         [NextState.get(i).getY()]
                         [NextState.get(i).getFaceDirection()-1].getCurrentCost() > NextState.get(i).currentCost) {
                     // determine the priority of the new state
-                    NextState.get(i).priorityValue += myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+                    NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
                     // set old worse node to now be the new, better node
                     Best_States[current.getX()][current.getY()][current.getFaceDirection()-1] = NextState.get(i);
                     // Add new state to the priority queue
@@ -146,39 +144,19 @@ public class Search {
 
 
 
-        System.out.println("Successfully ended astar");
+//        System.out.println("Successfully ended astar");
 
 //        // ---------- CALCULATION OF THE OPTIMAL PATH -----------
-//        // Calculate the score of the path
-//        // TODO: implement
-//        int i = 1;
-//        while(i < stateList.size() - 1) {
-//            State currentState = stateList.get(i);
-//            String currentMove = currentState.previousMove;
-//            if(currentMove.equals("Forward")) {
-//                if(gameBoard.gameboard[currentState.getX()][currentState.getY()] == 'G') {
-//                    score -= 1;
-//                }
-//                score -= (int)gameBoard.gameboard[currentState.getX()][currentState.getY()];
-//            }
-//            else if(currentMove.equals("Left") || currentMove.equals("Right")) {
-//                score -= Math.ceil(0.5 * (int)gameBoard.gameboard[currentState.getX()][currentState.getY()]);
-//            }
-//            else if(currentMove.equals("Bash")) {
-//                score -= 3;
-//            }
-//            numActions++;
-//
-//        }
-//        score += 100;
-//
-//        System.out.println("Score of the path: " + score);
-//        System.out.println("Number of actions: " + numActions);
-//        System.out.println("Number of nodes expanded: " + numNodesExpanded);
-//
-//        for(int j = 1; j < stateList.size()-1; j++) {
-//            System.out.println(stateList.get(j).previousMove);
-//        }
+        // Determine the number of actions in optimal path
+        numActions = MoveList.size();;
+
+        System.out.println("Score of the path: " + score);
+        System.out.println("Number of actions: " + numActions);
+        System.out.println("Number of nodes expanded: " + numNodesExpanded);
+
+        for(int j = 0; j < MoveList.size(); j++) {
+            System.out.println(MoveList.get(j));
+        }
 
     } // End of A_Star_Search()
 }
