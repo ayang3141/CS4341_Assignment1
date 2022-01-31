@@ -288,13 +288,7 @@ public class Agent {
                 }
                 break;
             case "bash":
-                // accounts for the bash cost and the proceeding forward cost
-                if(board.getComplexity(second.getX(), second.getY()) == 'G') {
-                    cost = 4;
-                }
-                else {
-                    cost = 3 + Character.getNumericValue(board.getComplexity(second.getX(), second.getY()));
-                }
+                cost = 3;
 
                 break;
         }
