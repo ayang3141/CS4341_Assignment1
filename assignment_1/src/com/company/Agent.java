@@ -200,11 +200,18 @@ public class Agent {
         //check to see if we can actually move into that space
         if(checkSpace(bashSpace))
         {
-            // increment twice
-            State newState =  new State(bashSpace, oldState.getFaceDirection(), oldState.currentCost, oldState,"bash");
-            int cost = moveCost(oldState, newState);
-            newState.currentCost += cost;
-            return newState;
+            //calculate forward space
+            Coordinate firstSpace = getForwardSpace(oldState, 1);
+            State firstState =  new State(firstSpace, oldState.getFaceDirection(), oldState.currentCost, oldState,"bash");
+            int firstCost = moveCost(oldState, firstState);
+            firstState.currentCost += firstCost;
+
+            //calculate forward space
+            Coordinate secondSpace = getForwardSpace(firstState, 1);
+            State secondState =  new State(secondSpace, firstState.getFaceDirection(), firstState.currentCost, firstState,"forward");
+            int secondCost = moveCost(firstState, secondState);
+            secondState.currentCost += secondCost;
+            return secondState;
         }
         return null;
     }
