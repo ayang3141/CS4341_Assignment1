@@ -14,7 +14,8 @@ public class astar {
 
     // Main method to run the program
     public static void main(String[] args) throws FileNotFoundException {
-        Board gameboard = new Board("assignment_1/assignment 1, sample board - 0.txt");
+
+        Board gameboard = new Board(args[0]);
 
         gameboard.generateBoard();
         System.out.println("this board has " + gameboard.numRows + " rows");
@@ -25,7 +26,7 @@ public class astar {
         System.out.println(start.getY());
 
         Agent agent1 = new Agent(gameboard);
-        Search search1 = new Search(gameboard, agent1, 5);
+        Search search1 = new Search(gameboard, agent1, Integer.parseInt(args[1]));
         search1.A_Star_Search();
 
     }
