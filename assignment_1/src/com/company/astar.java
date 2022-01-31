@@ -17,12 +17,6 @@ public class astar {
         Board gameboard = new Board("assignment_1/assignment 1, sample board - 0.txt");
 
         gameboard.generateBoard();
-        System.out.println("this board has " + gameboard.numRows + " rows");
-        System.out.println("this board has " + gameboard.numCols + " columns");
-
-        Coordinate start = gameboard.getStartPoint();
-        System.out.println(start.getX());
-        System.out.println(start.getY());
 
         Agent agent1 = new Agent(gameboard);
         Search search1 = new Search(gameboard, agent1, 5);

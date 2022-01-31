@@ -117,15 +117,6 @@ public class Board {
     }
 
 
-
-
-
-
-
-
-
-
-
     public static void main(String[] args) throws FileNotFoundException {
         Board myBoard = new Board("assignment_1/assignment 1, sample board - 0.txt");
         myBoard.generateBoard();
