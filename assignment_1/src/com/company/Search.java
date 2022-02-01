@@ -9,7 +9,7 @@ public class Search {
     Board gameBoard;
     Agent agent;
     int heuristic;
-    PriorityQueue<State> StateComparator = new PriorityQueue<State>(new Comparator<State>() {
+    PriorityQueue<State> StateComparator = new PriorityQueue<State>(50, new Comparator<State>() {
         @Override
         public int compare(State s1, State s2) {return s1.getPriorityValue() - s2.getPriorityValue();}
     });

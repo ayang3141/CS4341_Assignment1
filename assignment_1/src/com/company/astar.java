@@ -14,7 +14,7 @@ public class astar {
 
     // Main method to run the program
     public static void main(String[] args) throws FileNotFoundException {
-//        Board gameboard = new Board("assignment_1/assignment 1, sample board - 6.txt");
+//        Board gameboard = new Board("assignment_1/assignment 1, sample board - 3.txt");
         Board gameboard = new Board(args[0]);
         gameboard.generateBoard();
 
