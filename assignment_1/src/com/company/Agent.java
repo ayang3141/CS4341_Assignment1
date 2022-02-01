@@ -38,6 +38,29 @@ public class Agent {
     }
 
 
+    // Get the coordinates of some number of spaces in front of the Agent
+    public Coordinate getBackwardSpace(State oldState) {
+
+        switch(oldState.getFaceDirection())
+        {
+            case State.NORTH:
+                // if facing north, move two spaces north
+                return new Coordinate(oldState.getX() + 1, oldState.getY());
+            case State.SOUTH:
+                // if facing south, move two spaces south
+                return new Coordinate(oldState.getX() - 1, oldState.getY());
+            case State.WEST:
+                // if facing west, move two spaces west
+                return new Coordinate(oldState.getX(), oldState.getY() + 1);
+            case State.EAST:
+                // if facing east, move two spaces east
+                return new Coordinate(oldState.getX(), oldState.getY() - 1);
+        }
+
+        return null;
+    }
+
+
     public Coordinate getLeftSpace(State oldState) {
 
         switch(oldState.getFaceDirection())
@@ -117,6 +140,19 @@ public class Agent {
             State secondState = moveForward(firstState);
 
             return secondState;
+        }
+        return null;
+    }
+
+    public State moveBackward(State oldState) {
+        if(checkSpace(getBackwardSpace(oldState))) {
+            State firstState = turnRight(oldState);
+
+            State secondState = turnRight(firstState);
+
+            State thirdState = moveForward(secondState);
+
+            return thirdState;
         }
         return null;
     }
@@ -256,6 +292,10 @@ public class Agent {
         // check if bash is possible, if so, add bash state
         if(checkSpace(getForwardSpace(oldState, 2))) {
             newStateList.add(bash(oldState));
+        }
+
+        if(checkSpace(getBackwardSpace(oldState))) {
+            newStateList.add(moveBackward(oldState));
         }
 
         return newStateList;
