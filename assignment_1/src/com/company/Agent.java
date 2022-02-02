@@ -281,22 +281,24 @@ public class Agent {
             newStateList.add(moveForward(oldState));
         }
 
-        if(checkSpace(getLeftSpace(oldState))) {
-            newStateList.add(moveLeft(oldState));
-        }
-
-        if(checkSpace(getRightSpace(oldState))) {
-            newStateList.add(moveRight(oldState));
-        }
+        newStateList.add(turnLeft(oldState));
+        newStateList.add(turnRight(oldState));
+//        if(checkSpace(getLeftSpace(oldState))) {
+//            newStateList.add(moveLeft(oldState));
+//        }
+//
+//        if(checkSpace(getRightSpace(oldState))) {
+//            newStateList.add(moveRight(oldState));
+//        }
 
         // check if bash is possible, if so, add bash state
         if(checkSpace(getForwardSpace(oldState, 2))) {
             newStateList.add(bash(oldState));
         }
 
-        if(checkSpace(getBackwardSpace(oldState))) {
-            newStateList.add(moveBackward(oldState));
-        }
+//        if(checkSpace(getBackwardSpace(oldState))) {
+//            newStateList.add(moveBackward(oldState));
+//        }
 
         return newStateList;
     }

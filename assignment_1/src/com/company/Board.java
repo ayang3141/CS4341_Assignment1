@@ -76,13 +76,13 @@ public class Board {
             {
                 System.out.println(line);
                 //tokenize it here
-                String[] tokens = line.split("\\t");
+                String[] tokens = line.split("\t");
                 numCols = tokens.length;
                 numRows++;
             }
 
-//            System.out.println(numCols);
-//            System.out.println(numRows);
+            System.out.println(numCols);
+            System.out.println(numRows);
 
             Scanner sc = new Scanner(levelFile);
             sc.useDelimiter("(\\r\\n)|\\t");
