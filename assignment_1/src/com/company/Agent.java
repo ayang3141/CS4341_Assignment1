@@ -25,7 +25,7 @@ public class Agent {
                 return new Coordinate(oldState.getX() - numSpaces, oldState.getY());
             case State.SOUTH:
                 // if facing south, move two spaces south
-                return new Coordinate(oldState.getX() + numSpaces, oldState.getY() + numSpaces);
+                return new Coordinate(oldState.getX() + numSpaces, oldState.getY());
             case State.WEST:
                 // if facing west, move two spaces west
                 return new Coordinate(oldState.getX(), oldState.getY() - numSpaces);
