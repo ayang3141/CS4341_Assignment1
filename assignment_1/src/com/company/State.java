@@ -44,6 +44,9 @@ public class State {
         this.currentCost = cost;
         this.previousMove = previousMove;
         this.previousState = parent;
+        if(currentCost < 0) {
+            System.out.println(this.currentCost);
+        }
     }
 
     // returns the x coordinate

@@ -72,7 +72,7 @@ public class Heuristics {
 
     // admissible heuristic function (straight line distance)
     public int admissableHeuristic(Coordinate current, Coordinate target) {
-        return sumHeuristic(current, target) + 1;
+        return sumHeuristic(current, target);
     }
 
     // inadmissible heuristic function (3 times admissible function)
