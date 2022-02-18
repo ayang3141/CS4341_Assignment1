@@ -85,7 +85,7 @@ public class Board {
             System.out.println(numRows);
 
             Scanner sc = new Scanner(levelFile);
-            sc.useDelimiter("(\\r\\n)|\\t");
+            sc.useDelimiter("(\\n)|\\t");
             char[][] level = new char[numRows][numCols];
 
 
