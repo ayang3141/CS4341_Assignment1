@@ -114,7 +114,7 @@ public class Search {
                     // determine the priority of the new state
                     NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
                     // set old worse node to now be the new, better node
-                    Best_States[current.getX()][current.getY()][current.getFaceDirection()-1] = NextState.get(i);
+                    Best_States[NextState.get(i).getX()][NextState.get(i).getY()][NextState.get(i).getFaceDirection()-1] = NextState.get(i);
                     // Add new state to the priority queue
                     OPEN.add(NextState.get(i));
                 }
